@@ -410,6 +410,7 @@ impl<'a> Builder<'a> {
                 test::Rustfmt,
                 test::Miri,
                 test::Clippy,
+                test::RustLldb,
                 test::CompiletestTest,
                 test::RustdocJSStd,
                 test::RustdocJSNotStd,

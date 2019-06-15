@@ -2056,3 +2056,35 @@ impl Step for Bootstrap {
         run.builder.ensure(Bootstrap);
     }
 }
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+pub struct RustLldb {
+    pub sysroot: Interned<PathBuf>,
+    pub host: Interned<String>,
+}
+
+impl Step for RustLldb {
+    type Output = ();
+    const DEFAULT: bool = true;
+    const ONLY_HOSTS: bool = true;
+
+    fn run(self, builder: &Builder<'_>) {
+        builder.ensure(dist::DebuggerScripts {
+            sysroot: self.sysroot,
+            host: self.host,
+        });
+        let mut cmd = Command::new("./rust-lldb_runtest.sh");
+        try_run(builder, &mut cmd);
+    }
+
+    fn should_run(run: ShouldRun<'_>) -> ShouldRun<'_> {
+        run.path("src/etc/rust-lldb")
+    }
+
+    fn make_run(run: RunConfig<'_>) {
+        run.builder.ensure(RustLldb {
+            sysroot: run.builder.sysroot(run.builder.compiler(run.builder.top_stage, run.host)),
+            host: run.target,
+        });
+    }
+}

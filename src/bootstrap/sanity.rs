@@ -106,6 +106,10 @@ pub fn check(build: &mut Build) {
                 build.config.ninja = true;
             }
         }
+
+        if build.config.lldb_enabled {
+            cmd_finder.must_have("swig");
+        }
     }
 
     build.config.python = build.config.python.take().map(|p| cmd_finder.must_have(p))
