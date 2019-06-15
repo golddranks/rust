@@ -2073,7 +2073,7 @@ impl Step for RustLldb {
             sysroot: self.sysroot,
             host: self.host,
         });
-        let mut cmd = Command::new("./rust-lldb_runtest.sh");
+        let mut cmd = Command::new("src/etc/rust-lldb_runtest.sh");
         try_run(builder, &mut cmd);
     }
 

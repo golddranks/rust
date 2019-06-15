@@ -10,11 +10,12 @@ fn main() {
 }' > test.rs
 rustc -g test.rs
 rm test.rs
-echo '
+(echo '
 breakpoint set --name comma
-run
-next
-frame variable
-exit' > test_lldb_batch.txt
-python lldb_batchmode.py test test_lldb_batch.txt | grep 'Nyarlathotep'
-rm test_lldb_batch.txt
+run'
+sleep 2
+echo 'next'
+sleep 1
+echo 'frame variable'
+sleep 1
+echo 'exit') | src/etc/rust-lldb test | grep 'Nyarlathotep'
